@@ -1,4 +1,5 @@
 import AboutVueView from '@/views/AboutVueView.vue'
+import HomeView from '@/views/HomeView.vue'
 import HomeVueView from '@/views/HomeVueView.vue'
 import VueView from '@/views/VueView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
@@ -12,7 +13,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: () => import('../views/HomeView.vue')
+      component: HomeView
     },
     {
       path: '/vue',
@@ -32,6 +33,18 @@ const router = createRouter({
       ]
     }
   ]
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.name === 'home') {
+    console.log(to, from)
+    document.querySelectorAll('style[type="text/css"]').forEach((el) => {
+      if (!el.getAttribute('data-vite-dev-id')?.includes('bootstrap.min.css')) {
+        el.remove()
+      }
+    })
+  }
+  next()
 })
 
 export default router
