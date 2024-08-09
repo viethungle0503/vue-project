@@ -31,13 +31,18 @@ const router = createRouter({
           component: AboutVueView
         }
       ]
+    },
+    {
+      path: '/axios-example',
+      name: 'axios-example',
+      component: () => import('@/views/AxiosExampleView.vue')
     }
   ]
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.name === 'home') {
-    console.log(to, from)
+  const names = ['vue', 'vue-home', 'vue-about']
+  if (!names.includes(to.name as string)) {
     document.querySelectorAll('style[type="text/css"]').forEach((el) => {
       if (!el.getAttribute('data-vite-dev-id')?.includes('bootstrap.min.css')) {
         el.remove()
