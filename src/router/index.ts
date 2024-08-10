@@ -48,12 +48,8 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const names = ['vue', 'vue-home', 'vue-about']
-  if (!names.includes(to.name as string)) {
-    document.querySelectorAll('style[type="text/css"]').forEach((el) => {
-      if (!el.getAttribute('data-vite-dev-id')?.includes('bootstrap.min.css')) {
-        el.remove()
-      }
-    })
+  if (names.includes(to.name as string)) {
+    console.log('Hello from initial view of Vue')
   }
   next()
 })

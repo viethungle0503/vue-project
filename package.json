@@ -22,12 +22,14 @@
     "cors-anywhere": "^0.4.4",
     "luxon": "^3.5.0",
     "pinia": "^2.1.7",
+    "primeicons": "^7.0.0",
     "primevue": "^4.0.4",
     "vue": "^3.4.29",
     "vue-router": "^4.3.3"
   },
   "devDependencies": {
     "@nightwatch/vue": "^3.1.1",
+    "@primevue/auto-import-resolver": "^4.0.4",
     "@rushstack/eslint-patch": "^1.8.0",
     "@tsconfig/node20": "^20.1.4",
     "@types/bootstrap": "^5.2.10",
@@ -51,6 +53,7 @@
     "sass": "^1.77.8",
     "ts-node": "^10.9.2",
     "typescript": "~5.4.0",
+    "unplugin-vue-components": "^0.27.3",
     "vite": "^5.3.1",
     "vite-plugin-nightwatch": "^0.4.6",
     "vite-plugin-vue-devtools": "^7.3.1",

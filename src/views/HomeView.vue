@@ -3,6 +3,7 @@ import Trading from '@/resources/explorer/tcbs/trading'
 import { ref } from 'vue'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap'
+import '@/assets/styles.scss'
 
 const priceData = ref<any[]>([])
 
@@ -19,7 +20,7 @@ const fetchPriceBoard = async () => {
 
 <template>
   <div>
-    <button @click="fetchPriceBoard" class="btn btn-primary">Fetch Price Board</button>
+    <Button label="Fetch Price Board" icon="pi pi-arrow-down" @click="fetchPriceBoard"></Button>
     <div v-if="priceData.length != 0">
       <pre>{{ priceData }}</pre>
     </div>
