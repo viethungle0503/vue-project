@@ -18,6 +18,7 @@
     "@popperjs/core": "^2.11.8",
     "axios": "^1.7.3",
     "bootstrap": "^5.3.3",
+    "cors-anywhere": "^0.4.4",
     "luxon": "^3.5.0",
     "pinia": "^2.1.7",
     "vue": "^3.4.29",

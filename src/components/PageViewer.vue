@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { defineProps } from 'vue'
 
-defineProps({
+defineProps<{
   pageTitle: String,
   content: String
-})
+}>()
+
 </script>
 
 <template>
