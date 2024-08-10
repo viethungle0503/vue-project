@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import PageViewer from '../components/PageViewer.vue'
+import PageViewer from '@/components/Practice/PageViewer.vue'
 
 const activePage = ref<number>(0)
 const useDarkNavBar = ref<boolean>(true)

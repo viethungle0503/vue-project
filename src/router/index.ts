@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import AboutVueView from '@/views/AboutVueView.vue'
-import PracticeView from '@/views/PracticeView.vue'
-import HomeVueView from '@/views/HomeVueView.vue'
-import VueView from '@/views/VueView.vue'
+import AboutVueView from '@/views/Vue/AboutVueView.vue'
+import PracticeView from '@/views/Practice/PracticeView.vue'
+import HomeVueView from '@/views/Vue/HomeVueView.vue'
+import VueView from '@/views/Vue/VueView.vue'
 import HomeView from '@/views/HomeView.vue'
 
 // route level code-splitting
@@ -41,7 +41,7 @@ const router = createRouter({
     {
       path: '/axios-example',
       name: 'axios-example',
-      component: () => import('@/views/AxiosExampleView.vue')
+      component: () => import('@/views/Practice/AxiosExampleView.vue')
     }
   ]
 })

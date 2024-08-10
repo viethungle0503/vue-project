@@ -7,19 +7,19 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    AnimalFacts: typeof import('./src/components/AnimalFacts.vue')['default']
+    AnimalFacts: typeof import('./src/components/Practice/AnimalFacts.vue')['default']
     Button: typeof import('primevue/button')['default']
-    CatFacts: typeof import('./src/components/CatFacts.vue')['default']
-    HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
+    CatFacts: typeof import('./src/components/Practice/CatFacts.vue')['default']
+    HelloWorld: typeof import('./src/components/Vue/HelloWorld.vue')['default']
     IconCommunity: typeof import('./src/components/icons/IconCommunity.vue')['default']
     IconDocumentation: typeof import('./src/components/icons/IconDocumentation.vue')['default']
     IconEcosystem: typeof import('./src/components/icons/IconEcosystem.vue')['default']
     IconSupport: typeof import('./src/components/icons/IconSupport.vue')['default']
     IconTooling: typeof import('./src/components/icons/IconTooling.vue')['default']
-    PageViewer: typeof import('./src/components/PageViewer.vue')['default']
+    PageViewer: typeof import('./src/components/Practice/PageViewer.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    TheWelcome: typeof import('./src/components/TheWelcome.vue')['default']
-    WelcomeItem: typeof import('./src/components/WelcomeItem.vue')['default']
+    TheWelcome: typeof import('./src/components/Vue/TheWelcome.vue')['default']
+    WelcomeItem: typeof import('./src/components/Vue/WelcomeItem.vue')['default']
   }
 }
