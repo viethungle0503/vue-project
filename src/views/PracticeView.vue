@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import 'bootstrap'
 import PageViewer from '../components/PageViewer.vue'
+
 const activePage = ref<number>(0)
 const useDarkNavBar = ref<boolean>(true)
 const navbarClass = computed(() => {
@@ -72,3 +71,5 @@ const pages = [
     />
   </main>
 </template>
+
+<style scoped></style>
