@@ -1,15 +1,6 @@
 <script setup lang="ts">
-import { defineProps, computed, ref } from 'vue'
+import { defineProps, computed, ref, onMounted } from 'vue'
 import NavbarLink from '@/components/Practice/NavbarLink.vue'
-
-const navbarClass = computed(() => {
-  return {
-    'navbar-light': !useDarkNavBar.value,
-    'bg-light': !useDarkNavBar.value,
-    'navbar-dark': useDarkNavBar.value,
-    'bg-dark': useDarkNavBar.value
-  }
-})
 
 defineProps<{
   pages: {
@@ -24,24 +15,59 @@ defineProps<{
   navLinkClick: Function
 }>()
 
-const useDarkNavBar = ref<boolean>(true)
-
-const theme = computed(() => {
-  return useDarkNavBar.value ? 'dark' : 'light'
-})
+const theme = ref<string>('light')
 
 const changeTheme = () => {
-  if (theme.value === 'dark') {
-    useDarkNavBar.value = false
+  if (theme.value === 'light') {
+    theme.value = 'dark'
   } else {
-    useDarkNavBar.value = true
+    theme.value = 'light'
+  }
+  storeThemeSetting()
+}
+
+const storeThemeSetting = () => {
+  localStorage.setItem('theme', theme.value)
+}
+
+const getThemeSetting = () => {
+  const themeSetting = localStorage.getItem('theme')
+  if (themeSetting) {
+    theme.value = themeSetting
   }
 }
 
+onMounted(() => {
+  getThemeSetting()
+})
+
+//#region <Old Colde>
+// const navbarClass = computed(() => {
+//   return {
+//     'navbar-light': !useDarkNavBar.value,
+//     'bg-light': !useDarkNavBar.value,
+//     'navbar-dark': useDarkNavBar.value,
+//     'bg-dark': useDarkNavBar.value
+//   }
+// })
+// const useDarkNavBar = ref<boolean>(true)
+
+// const theme = computed(() => {
+//   return useDarkNavBar.value ? 'dark' : 'light'
+// })
+
+// const changeTheme = () => {
+//   if (theme.value === 'dark') {
+//     useDarkNavBar.value = false
+//   } else {
+//     useDarkNavBar.value = true
+//   }
+// }
 // v-bind="activePage === index ? { class: 'nav-link active' } : { class: 'nav-link' }"
 // :class="{ 'navbar-light bg-light': !useDarkNavBar, 'navbar-dark bg-dark': useDarkNavBar }"
 // :class="navbarClass"
 // :class="[useDarkNavBar ? 'navbar-dark bg-dark' : 'navbar-light bg-light','navbar', 'navbar-expand-lg']"
+//#endregion
 </script>
 
 <template>

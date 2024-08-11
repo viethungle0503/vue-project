@@ -10,6 +10,7 @@ declare module 'vue' {
     AnimalFacts: typeof import('./src/components/Practice/AnimalFacts.vue')['default']
     Button: typeof import('primevue/button')['default']
     CatFacts: typeof import('./src/components/Practice/CatFacts.vue')['default']
+    CreatePage: typeof import('./src/components/Practice/CreatePage.vue')['default']
     HelloWorld: typeof import('./src/components/Vue/HelloWorld.vue')['default']
     IconCommunity: typeof import('./src/components/icons/IconCommunity.vue')['default']
     IconDocumentation: typeof import('./src/components/icons/IconDocumentation.vue')['default']

@@ -2,6 +2,7 @@
 import { onMounted, ref } from 'vue'
 import PageViewer from '@/components/Practice/PageViewer.vue'
 import NavbarContainer from '@/components/Practice/NavbarContainer.vue'
+import CreatePage from '@/components/Practice/CreatePage.vue'
 
 const activePage = ref<number>(0)
 
@@ -22,6 +23,10 @@ const pages = ref<
   }[]
 >([])
 
+const pageCreated = (pageObj: any) => {
+  console.log(pageObj)
+}
+
 onMounted(() => {
   getPages()
 })
@@ -29,12 +34,13 @@ onMounted(() => {
 
 <template>
   <main>
-    <NavbarContainer
+    <navbar-container
       :pages="pages"
       :activePage="activePage"
       :navLinkClick="(index: number) => (activePage = index)"
-    />
-    <PageViewer v-if="pages.length > 0" :page="pages[activePage]" />
+    ></navbar-container>
+    <page-viewer v-if="pages.length > 0" :page="pages[activePage]"></page-viewer>
+    <create-page :page-created="pageCreated"></create-page>
   </main>
 </template>
 
