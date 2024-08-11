@@ -2,7 +2,7 @@
 import { defineProps, computed, ref, onMounted } from 'vue'
 import NavbarLink from '@/components/Practice/NavbarLink.vue'
 
-defineProps<{
+const props = defineProps<{
   pages: {
     link: {
       text: string
@@ -10,6 +10,7 @@ defineProps<{
     }
     pageTitle: string
     content: string
+    published: boolean
   }[]
   activePage: number
   navLinkClick: Function
@@ -36,6 +37,10 @@ const getThemeSetting = () => {
     theme.value = themeSetting
   }
 }
+
+const publishedPages = computed(() => {
+  return props.pages.filter((page) => page.published)
+})
 
 onMounted(() => {
   getThemeSetting()
@@ -75,7 +80,7 @@ onMounted(() => {
     <div class="container-fluid">
       <a class="navbar-brand" href="#">My Vue</a>
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li v-for="(page, index) in pages" class="nav-item" v-bind:key="index">
+        <li v-for="(page, index) in publishedPages" class="nav-item" v-bind:key="index">
           <navbar-link
             :page="page"
             :isActive="activePage == index"

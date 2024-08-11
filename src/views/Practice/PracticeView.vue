@@ -20,11 +20,12 @@ const pages = ref<
     }
     pageTitle: string
     content: string
+    published: boolean
   }[]
 >([])
 
 const pageCreated = (pageObj: any) => {
-  console.log(pageObj)
+  pages.value.push(pageObj)
 }
 
 onMounted(() => {

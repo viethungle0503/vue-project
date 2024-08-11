@@ -1,18 +1,19 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 
 const props = defineProps<{
   pageCreated: Function
 }>()
 
 const isFormValid = computed(() => {
-    return !pageTitle.value || !content.value || !linkText.value || !linkUrl.value
+  return !pageTitle.value || !content.value || !linkText.value || !linkUrl.value
 })
 
 const pageTitle = ref<string>('')
 const content = ref<string>('')
 const linkText = ref<string>('')
 const linkUrl = ref<string>('')
+const published = ref<boolean>(true)
 const submitForm = () => {
   if (!pageTitle.value || !content.value || !linkText.value || !linkUrl.value) {
     alert('Please fill out the form')
@@ -24,9 +25,21 @@ const submitForm = () => {
     link: {
       text: linkText.value,
       url: linkUrl.value
-    }
+    },
+    published: published.value
   })
+  pageTitle.value = ''
+  content.value = ''
+  linkText.value = ''
+  linkUrl.value = ''
 }
+
+watch(pageTitle, (newTitle, oldTitle) => {
+  console.log(`pageTitle changed from ${oldTitle} to ${newTitle}`);
+  if(linkText.value == oldTitle) {
+    linkText.value = newTitle
+  }
+});
 </script>
 
 <!-- 
@@ -53,7 +66,9 @@ const submitForm = () => {
             <textarea type="text" class="form-control" rows="5" v-model="content"></textarea>
           </div>
           <div class="mb-3">
-            <button class="btn btn-primary" @click.prevent="submitForm" :disabled="isFormValid">Create Page</button>
+            <button class="btn btn-primary" @click.prevent="submitForm" :disabled="isFormValid">
+              Create Page
+            </button>
           </div>
         </div>
         <div class="col">
@@ -67,7 +82,7 @@ const submitForm = () => {
           </div>
           <div class="row mb-3">
             <div class="form-check">
-              <input type="checkbox" class="form-check-input" />
+              <input type="checkbox" class="form-check-input" v-model="published" />
               <label class="form-check-label">Published</label>
             </div>
           </div>
