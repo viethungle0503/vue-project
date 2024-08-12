@@ -21,6 +21,7 @@
     "bootstrap": "^5.3.3",
     "cors-anywhere": "^0.4.4",
     "luxon": "^3.5.0",
+    "mitt": "^3.0.1",
     "pinia": "^2.1.7",
     "primeicons": "^7.0.0",
     "primevue": "^4.0.4",

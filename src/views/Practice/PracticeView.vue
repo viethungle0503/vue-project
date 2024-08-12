@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { inject, onMounted, ref } from 'vue'
 import PageViewer from '@/components/Practice/PageViewer.vue'
 import NavbarContainer from '@/components/Practice/NavbarContainer.vue'
 import CreatePage from '@/components/Practice/CreatePage.vue'
@@ -28,8 +28,14 @@ const pageCreated = (pageObj: any) => {
   pages.value.push(pageObj)
 }
 
+const emitter: any = inject('emitter')
+
 onMounted(() => {
   getPages()
+
+  emitter.on('navbarLinkActivated', (index: number) => {
+    activePage.value = index
+  })
 })
 </script>
 
@@ -38,7 +44,6 @@ onMounted(() => {
     <navbar-container
       :pages="pages"
       :activePage="activePage"
-      :navLinkClick="(index: number) => (activePage = index)"
     ></navbar-container>
     <page-viewer v-if="pages.length > 0" :page="pages[activePage]"></page-viewer>
     <create-page @page-created="pageCreated"></create-page>
