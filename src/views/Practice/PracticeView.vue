@@ -41,7 +41,7 @@ onMounted(() => {
       :navLinkClick="(index: number) => (activePage = index)"
     ></navbar-container>
     <page-viewer v-if="pages.length > 0" :page="pages[activePage]"></page-viewer>
-    <create-page :page-created="pageCreated"></create-page>
+    <create-page @page-created="pageCreated"></create-page>
   </main>
 </template>
 

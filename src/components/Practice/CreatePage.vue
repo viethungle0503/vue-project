@@ -1,13 +1,24 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 
-const props = defineProps<{
-  pageCreated: Function
-}>()
+const emit = defineEmits(['pageCreated'])
 
 const isFormValid = computed(() => {
   return !pageTitle.value || !content.value || !linkText.value || !linkUrl.value
 })
+
+const canEmitEvent = (pageTitle: string, content: string, link: { text: string; url: string }) => {
+  if (!pageTitle) {
+    return false
+  }
+  if (!content) {
+    return false
+  }
+  if (!link || !link.text || !link.url) {
+    return false
+  }
+  return true
+}
 
 const pageTitle = ref<string>('')
 const content = ref<string>('')
@@ -19,15 +30,18 @@ const submitForm = () => {
     alert('Please fill out the form')
     return
   }
-  props.pageCreated({
-    pageTitle: pageTitle.value,
-    content: content.value,
-    link: {
-      text: linkText.value,
-      url: linkUrl.value
-    },
-    published: published.value
-  })
+  const link = {
+    text: linkText.value,
+    url: linkUrl.value
+  }
+  if (canEmitEvent(pageTitle.value, content.value, link)) {
+    emit('pageCreated', {
+      pageTitle: pageTitle.value,
+      content: content.value,
+      link: link,
+      published: published.value
+    })
+  }
   pageTitle.value = ''
   content.value = ''
   linkText.value = ''
@@ -35,11 +49,11 @@ const submitForm = () => {
 }
 
 watch(pageTitle, (newTitle, oldTitle) => {
-  console.log(`pageTitle changed from ${oldTitle} to ${newTitle}`);
-  if(linkText.value == oldTitle) {
+  console.log(`pageTitle changed from ${oldTitle} to ${newTitle}`)
+  if (linkText.value == oldTitle) {
     linkText.value = newTitle
   }
-});
+})
 </script>
 
 <!-- 
