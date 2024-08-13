@@ -4,6 +4,8 @@ import PracticeView from '@/views/Practice/PracticeView.vue'
 import HomeVueView from '@/views/Vue/HomeVueView.vue'
 import VueView from '@/views/Vue/VueView.vue'
 import HomeView from '@/views/HomeView.vue'
+import PageViewer from '@/components/Practice/PageViewer.vue'
+import CreatePage from '@/components/Practice/CreatePage.vue'
 
 // route level code-splitting
 // this generates a separate chunk (About.[hash].js) for this route
@@ -19,7 +21,20 @@ const router = createRouter({
     {
       path: '/practice',
       name: 'practice',
-      component: PracticeView
+      component: PracticeView,
+      children: [
+        {
+          path: ':index?',
+          name: 'page-viewer',
+          component: PageViewer,
+          props: true
+        },
+        {
+          path: 'create',
+          name: 'create',
+          component: CreatePage
+        }
+      ]
     },
     {
       path: '/vue',

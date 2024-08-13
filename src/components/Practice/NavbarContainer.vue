@@ -90,6 +90,16 @@ onMounted(() => {
             @activated="$emit('activated')"
           ></navbar-link>
         </li>
+
+        <li>
+          <router-link
+            to="/practice/create"
+            class="nav-link"
+            aria-current="page"
+            title="Create a new page"
+            >Create</router-link
+          >
+        </li>
       </ul>
       <form class="d-flex">
         <button class="btn btn-primary" @click.prevent="changeTheme">Toggle Navbar</button>

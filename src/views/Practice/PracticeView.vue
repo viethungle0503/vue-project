@@ -1,15 +1,27 @@
 <script setup lang="ts">
 import { inject, onMounted, ref } from 'vue'
-import PageViewer from '@/components/Practice/PageViewer.vue'
 import NavbarContainer from '@/components/Practice/NavbarContainer.vue'
-import CreatePage from '@/components/Practice/CreatePage.vue'
 
 const activePage = ref<number>(0)
+const isLoading = ref(true)
 
 const getPages = async () => {
-  let response = await fetch('pages.json')
-  let data = await response.json()
-  pages.value = data
+  try {
+    const response = await fetch(`${import.meta.env.BASE_URL}pages.json`)
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`)
+    }
+    const contentType = response.headers.get('content-type')
+    if (!contentType || !contentType.includes('application/json')) {
+      throw new TypeError("Oops, we haven't got JSON!")
+    }
+    const data = await response.json()
+    pages.value = data
+    localStorage.setItem('pages', JSON.stringify(data))
+    isLoading.value = false
+  } catch (error) {
+    console.log('Failed to fetch pages:', error)
+  }
 }
 
 const pages = ref<
@@ -30,8 +42,8 @@ const pageCreated = (pageObj: any) => {
 
 const emitter: any = inject('emitter')
 
-onMounted(() => {
-  getPages()
+onMounted(async () => {
+  await getPages()
 
   emitter.on('navbarLinkActivated', (index: number) => {
     activePage.value = index
@@ -40,14 +52,11 @@ onMounted(() => {
 </script>
 
 <template>
-  <main>
-    <navbar-container
-      :pages="pages"
-      :activePage="activePage"
-    ></navbar-container>
-    <page-viewer v-if="pages.length > 0" :page="pages[activePage]"></page-viewer>
-    <create-page @page-created="pageCreated"></create-page>
+  <main v-if="!isLoading">
+    <navbar-container :pages="pages" :activePage="activePage"></navbar-container>
+    <router-view></router-view>
   </main>
+  <div v-else>Loading...</div>
 </template>
 
 <style scoped></style>

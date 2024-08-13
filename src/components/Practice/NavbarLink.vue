@@ -29,14 +29,15 @@ const navbarLinkClick = (index: number) => {
 
 <template>
   <li>
-    <a
-      v-bind:href="page.link.url"
+    <router-link
+      :to="`/practice/${index}`"
+      :index="index"
       class="nav-link"
       :class="activeClasses"
-      aria-current="page"
       :title="`This link goes to somewhere ${page.link.text}`"
-      @click.prevent="navbarLinkClick(index)"
-      >{{ page.link.text }}</a
+      aria-current="page"
+      v-bind:href="page.link.url"
+      >{{ page.link.text }}</router-link
     >
   </li>
 </template>

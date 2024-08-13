@@ -1,24 +1,55 @@
 <script setup lang="ts">
-import { computed, defineProps } from 'vue'
+import { inject, onMounted, ref, watch } from 'vue'
+// import { useRoute } from 'vue-router'
+
+// const route = useRoute()
 
 const props = defineProps<{
-  page: {
-    pageTitle: string
-    content: string
-  }
+  index: number | string
 }>()
 
-const page = computed(
-  () =>
-    props.page || {
-      pageTitle: 'Default Title',
-      content: 'Default Content'
-    }
+const pages = inject<{
+  getSinglePage: (id: number) => { pageTitle: string; content: string }
+  getPages: () => {
+    link: { text: string; url: string }
+    pageTitle: string
+    content: string
+    published: boolean
+  }[]
+}>('pages')
+
+const page = ref({
+  pageTitle: 'Default Title',
+  content: 'Default Content'
+})
+
+watch(
+  () => props.index,
+  (index) => {
+    const pageData = pages!.getSinglePage(index as number)
+    page.value = pageData
+  }
 )
+
+// watch(
+//   () => route.params.index,
+//   (index) => {
+//     const pageData = pages!.getSinglePage(Number(index))
+//     page.value = pageData
+//   }
+// )
+
+onMounted(() => {
+  const pageData = pages!.getSinglePage(props.index as number)
+  // const pageData = pages!.getSinglePage(Number(route.params.index))
+  page.value = pageData
+})
+
+
 </script>
 
 <template>
-  <div id="content" class="container">
+  <div v-if="page" id="content" class="container">
     <h1 class="emphasize">{{ page.pageTitle }}</h1>
     <p>{{ page.content }}</p>
   </div>
