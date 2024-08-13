@@ -6,6 +6,8 @@ import VueView from '@/views/Vue/VueView.vue'
 import HomeView from '@/views/HomeView.vue'
 import PageViewer from '@/components/Practice/PageViewer.vue'
 import CreatePage from '@/components/Practice/CreatePage.vue'
+import PagesManagement from '@/components/Practice/PagesManagement.vue'
+import PagesList from '@/components/Practice/PagesList.vue'
 
 // route level code-splitting
 // this generates a separate chunk (About.[hash].js) for this route
@@ -30,9 +32,20 @@ const router = createRouter({
           props: true
         },
         {
-          path: 'create',
-          name: 'create',
-          component: CreatePage
+          path: 'pages',
+          component: PagesManagement,
+          children: [
+            {
+              path: '',
+              name: 'pages-list',
+              component: PagesList
+            },
+            {
+              path: 'create',
+              name: 'create-page',
+              component: CreatePage
+            }
+          ]
         }
       ]
     },

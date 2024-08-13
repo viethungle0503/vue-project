@@ -90,13 +90,23 @@ onMounted(() => {
 
         <li>
           <router-link
-            to="/practice/create"
+            to="/practice/pages/create"
             class="nav-link"
             active-class="active emphasize"
             aria-current="page"
             title="Create a new page"
             >Create</router-link
           >
+        </li>
+        <li>
+          <router-link
+            to="/practice/pages"
+            class="nav-link"
+            active-class="active emphasize"
+            aria-current="page"
+            title="Manage pages"
+            >Manage Pages
+          </router-link>
         </li>
       </ul>
       <form class="d-flex">
