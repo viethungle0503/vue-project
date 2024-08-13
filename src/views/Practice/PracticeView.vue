@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import NavbarContainer from '@/components/Practice/NavbarContainer.vue'
+import type { DetailedPage } from '@/utils/interfaces'
 
 const isLoading = ref(true)
 
@@ -23,17 +24,7 @@ const getPages = async () => {
   }
 }
 
-const pages = ref<
-  {
-    link: {
-      text: string
-      url: string
-    }
-    pageTitle: string
-    content: string
-    published: boolean
-  }[]
->([])
+const pages = ref<DetailedPage[]>([])
 
 const pageCreated = (pageObj: any) => {
   pages.value.push(pageObj)

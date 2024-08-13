@@ -8,6 +8,7 @@ import PageViewer from '@/components/Practice/PageViewer.vue'
 import CreatePage from '@/components/Practice/CreatePage.vue'
 import PagesManagement from '@/components/Practice/PagesManagement.vue'
 import PagesList from '@/components/Practice/PagesList.vue'
+import PageEdit from '@/components/Practice/PageEdit.vue'
 
 // route level code-splitting
 // this generates a separate chunk (About.[hash].js) for this route
@@ -44,6 +45,12 @@ const router = createRouter({
               path: 'create',
               name: 'create-page',
               component: CreatePage
+            },
+            {
+              path: ':index/edit',
+              name: 'page-edit',
+              component: PageEdit,
+              props: true
             }
           ]
         }

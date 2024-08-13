@@ -22,6 +22,7 @@ declare module 'vue' {
     NavbarContainer: typeof import('./src/components/Practice/NavbarContainer.vue')['default']
     NavbarLink: typeof import('./src/components/Practice/NavbarLink.vue')['default']
     PageContainer: typeof import('./src/components/Practice/PageContainer.vue')['default']
+    PageEdit: typeof import('./src/components/Practice/PageEdit.vue')['default']
     PageList: typeof import('./src/components/Practice/PageList.vue')['default']
     PageManagement: typeof import('./src/components/Practice/PageManagement.vue')['default']
     PagesList: typeof import('./src/components/Practice/PagesList.vue')['default']

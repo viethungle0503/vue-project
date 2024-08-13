@@ -8,7 +8,7 @@ const props = defineProps<{
   index: number | string
 }>()
 
-const pages = inject<{
+const $pages = inject<{
   getSinglePage: (id: number) => { pageTitle: string; content: string }
   getPages: () => {
     link: { text: string; url: string }
@@ -16,7 +16,7 @@ const pages = inject<{
     content: string
     published: boolean
   }[]
-}>('pages')
+}>('$pages')
 
 const page = ref({
   pageTitle: 'Default Title',
@@ -26,7 +26,7 @@ const page = ref({
 watch(
   () => props.index,
   (index) => {
-    const pageData = pages!.getSinglePage(index as number)
+    const pageData = $pages!.getSinglePage(index as number)
     page.value = pageData
   }
 )
@@ -40,7 +40,7 @@ watch(
 // )
 
 onMounted(() => {
-  const pageData = pages!.getSinglePage(props.index as number)
+  const pageData = $pages!.getSinglePage(props.index as number)
   // const pageData = pages!.getSinglePage(Number(route.params.index))
   page.value = pageData
 })

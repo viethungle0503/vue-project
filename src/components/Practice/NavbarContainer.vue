@@ -25,7 +25,7 @@ const getThemeSetting = () => {
 }
 
 const pages = ref<any[]>()
-const pagesInject = inject<{
+const $pages = inject<{
   getSinglePage: (id: number) => { pageTitle: string; content: string }
   getAllPages: () => {
     link: { text: string; url: string }
@@ -33,15 +33,20 @@ const pagesInject = inject<{
     content: string
     published: boolean
   }[]
-}>('pages')
+}>('$pages')
 
 const publishedPages = computed(() => {
   return pages?.value?.filter((page) => page.published) || []
 })
 
+const emitter = inject<any>('emitter')
+
 onMounted(() => {
   getThemeSetting()
-  pages.value = pagesInject!.getAllPages()
+  pages.value = $pages!.getAllPages()
+  emitter.on('page-updated', () => {
+    pages.value = [...$pages!.getAllPages()]
+  })
 })
 
 //#region <Old Colde>
@@ -78,27 +83,10 @@ onMounted(() => {
     <div class="container-fluid">
       <a class="navbar-brand" href="#">My Vue</a>
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li>
-          <navbar-link
-            v-for="(page, index) in publishedPages"
-            v-bind:key="index"
-            class="nav-item"
-            :page="page"
-            :index="index"
-          ></navbar-link>
+        <li class="nav-item" v-for="(page, index) in publishedPages" v-bind:key="index">
+          <navbar-link :page="page" :index="index"></navbar-link>
         </li>
-
-        <li>
-          <router-link
-            to="/practice/pages/create"
-            class="nav-link"
-            active-class="active emphasize"
-            aria-current="page"
-            title="Create a new page"
-            >Create</router-link
-          >
-        </li>
-        <li>
+        <li class="nav-item">
           <router-link
             to="/practice/pages"
             class="nav-link"

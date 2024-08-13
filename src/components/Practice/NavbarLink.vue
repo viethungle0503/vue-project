@@ -14,7 +14,6 @@ defineProps<{
 </script>
 
 <template>
-  <li>
     <router-link
       :to="`/practice/${index}`"
       :index="index"
@@ -25,7 +24,6 @@ defineProps<{
       v-bind:href="page.link.url"
       >{{ page.link.text }}</router-link
     >
-  </li>
 </template>
 
 <style scoped>

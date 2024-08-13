@@ -23,6 +23,6 @@ app.use(axios, {
   baseUrl: 'https://cataas.com/'
 })
 app.provide('emitter', emitter) // ✅ Provide as `emitter`
-app.provide('pages', pages) // ✅ Provide pages
+app.provide('$pages', pages) // ✅ Provide pages
 
 app.mount('#app')
