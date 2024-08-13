@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { inject, onMounted, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import NavbarContainer from '@/components/Practice/NavbarContainer.vue'
 
-const activePage = ref<number>(0)
 const isLoading = ref(true)
 
 const getPages = async () => {
@@ -40,20 +39,14 @@ const pageCreated = (pageObj: any) => {
   pages.value.push(pageObj)
 }
 
-const emitter: any = inject('emitter')
-
 onMounted(async () => {
   await getPages()
-
-  emitter.on('navbarLinkActivated', (index: number) => {
-    activePage.value = index
-  })
 })
 </script>
 
 <template>
   <main v-if="!isLoading">
-    <navbar-container :pages="pages" :activePage="activePage"></navbar-container>
+    <navbar-container></navbar-container>
     <router-view></router-view>
   </main>
   <div v-else>Loading...</div>

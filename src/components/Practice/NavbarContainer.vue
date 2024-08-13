@@ -1,19 +1,6 @@
 <script setup lang="ts">
-import { defineProps, computed, ref, onMounted } from 'vue'
+import { computed, ref, onMounted, inject } from 'vue'
 import NavbarLink from '@/components/Practice/NavbarLink.vue'
-
-const props = defineProps<{
-  pages: {
-    link: {
-      text: string
-      url: string
-    }
-    pageTitle: string
-    content: string
-    published: boolean
-  }[]
-  activePage: number
-}>()
 
 const theme = ref<string>('light')
 
@@ -37,12 +24,24 @@ const getThemeSetting = () => {
   }
 }
 
+const pages = ref<any[]>()
+const pagesInject = inject<{
+  getSinglePage: (id: number) => { pageTitle: string; content: string }
+  getAllPages: () => {
+    link: { text: string; url: string }
+    pageTitle: string
+    content: string
+    published: boolean
+  }[]
+}>('pages')
+
 const publishedPages = computed(() => {
-  return props.pages.filter((page) => page.published)
+  return pages?.value?.filter((page) => page.published) || []
 })
 
 onMounted(() => {
   getThemeSetting()
+  pages.value = pagesInject!.getAllPages()
 })
 
 //#region <Old Colde>
@@ -82,12 +81,10 @@ onMounted(() => {
         <li>
           <navbar-link
             v-for="(page, index) in publishedPages"
-            class="nav-item"
             v-bind:key="index"
+            class="nav-item"
             :page="page"
             :index="index"
-            :isActive="activePage == index"
-            @activated="$emit('activated')"
           ></navbar-link>
         </li>
 
@@ -95,6 +92,7 @@ onMounted(() => {
           <router-link
             to="/practice/create"
             class="nav-link"
+            active-class="active emphasize"
             aria-current="page"
             title="Create a new page"
             >Create</router-link
@@ -107,3 +105,10 @@ onMounted(() => {
     </div>
   </nav>
 </template>
+
+<style scoped>
+.emphasize {
+  font-weight: bold;
+  text-decoration: underline !important;
+}
+</style>
