@@ -14,6 +14,7 @@ export interface DetailedPage extends Page {
 }
 
 export interface PagesInjection {
+  addPage(page: DetailedPage): void
   getAllPages(): DetailedPage[]
   getSinglePage(index: number): DetailedPage
   editPage(index: number, page: DetailedPage): void

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, onMounted, inject } from 'vue'
 import NavbarLink from '@/components/Practice/NavbarLink.vue'
+import type { DetailedPage } from '@/utils/interfaces';
 
 const theme = ref<string>('light')
 
@@ -24,7 +25,7 @@ const getThemeSetting = () => {
   }
 }
 
-const pages = ref<any[]>()
+const pages = ref<DetailedPage[]>()
 const $pages = inject<{
   getSinglePage: (id: number) => { pageTitle: string; content: string }
   getAllPages: () => {
@@ -35,16 +36,15 @@ const $pages = inject<{
   }[]
 }>('$pages')
 
-const publishedPages = computed(() => {
-  return pages?.value?.filter((page) => page.published) || []
-})
-
 const emitter = inject<any>('emitter')
 
 onMounted(() => {
   getThemeSetting()
   pages.value = $pages!.getAllPages()
   emitter.on('page-updated', () => {
+    pages.value = [...$pages!.getAllPages()]
+  })
+  emitter.on('page-created', () => {
     pages.value = [...$pages!.getAllPages()]
   })
 })
@@ -83,7 +83,12 @@ onMounted(() => {
     <div class="container-fluid">
       <a class="navbar-brand" href="#">My Vue</a>
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item" v-for="(page, index) in publishedPages" v-bind:key="index">
+        <li
+          class="nav-item"
+          v-for="(page, index) in pages"
+          v-bind:key="index"
+          :class="{ 'd-none': !page.published }"
+        >
           <navbar-link :page="page" :index="index"></navbar-link>
         </li>
         <li class="nav-item">
