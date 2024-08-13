@@ -18,4 +18,5 @@ export interface PagesInjection {
   getAllPages(): DetailedPage[]
   getSinglePage(index: number): DetailedPage
   editPage(index: number, page: DetailedPage): void
+  removePage(index: number): void
 }

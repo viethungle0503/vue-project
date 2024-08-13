@@ -23,6 +23,12 @@ const submit = () => {
 const goToPagesList = () => {
   router.push({ name: 'pages-list' })
 }
+
+const deletePage = () => {
+  $pages!.removePage(Number(index))
+  emitter.emit('page-deleted', { index })
+  goToPagesList()
+}
 </script>
 
 <template>
@@ -56,6 +62,7 @@ const goToPagesList = () => {
       <div class="mb-3">
         <button class="btn btn-primary me-2" @click.prevent="submit()">Edit</button>
         <button class="btn btn-secondary" @click.prevent="goToPagesList">Cancel</button>
+        <button class="btn btn-danger ms-2" @click.prevent="deletePage()">Delete</button>
       </div>
     </form>
   </div>

@@ -47,6 +47,9 @@ onMounted(() => {
   emitter.on('page-created', () => {
     pages.value = [...$pages!.getAllPages()]
   })
+  emitter.on('page-deleted', () => {
+    pages.value = [...$pages!.getAllPages()]
+  })
 })
 
 //#region <Old Colde>
