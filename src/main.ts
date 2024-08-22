@@ -16,8 +16,11 @@ app.use(createPinia())
 app.use(router)
 app.use(PrimeVue, {
   theme: {
-    preset: Aura
-  }
+    preset: Aura,
+    options: {
+        darkModeSelector: '.system-appearance-dark',
+    }
+}
 })
 app.use(axios, {
   baseUrl: 'https://cataas.com/'
