@@ -1,22 +1,9 @@
 <script setup lang="ts">
-import Trading from '@/resources/explorer/tcbs/trading'
 import { ref } from 'vue'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap'
 import '@/assets/styles.scss'
 import ConditionGenerator from '@/components/securities/ConditionGenerator.vue'
-
-const priceData = ref<any[]>([])
-
-const fetchPriceBoard = async () => {
-  const trading = new Trading()
-  try {
-    const data = await trading.priceBoard(['MWG', 'HHV'])
-    priceData.value = data
-  } catch (error) {
-    console.error('Error fetching price board:', error)
-  }
-}
 
 const toggleDarkMode = () => {
   const element = document.querySelector('html')
@@ -51,22 +38,12 @@ const navItems = ref([
               <a class="nav-link" :href="item.url">{{ item.text }}</a>
             </li>
           </ul>
-          <form class="d-flex">
-            <Button
-              label="Fetch Price Board"
-              icon="pi pi-arrow-down"
-              @click="fetchPriceBoard"
-            ></Button>
             <Button label="Toggle Dark Mode" @click="toggleDarkMode()"></Button>
-          </form>
         </div>
       </div>
     </nav>
     <div class="container-fluid">
       <div class="mb-5">
-        <div v-if="priceData.length != 0">
-          <pre>{{ priceData }}</pre>
-        </div>
         <ConditionGenerator></ConditionGenerator>
       </div>
     </div>
