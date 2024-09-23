@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AnimalFacts: typeof import('./src/components/Practice/AnimalFacts.vue')['default']
+    Avatar: typeof import('primevue/avatar')['default']
     Button: typeof import('primevue/button')['default']
     CatFacts: typeof import('./src/components/Practice/CatFacts.vue')['default']
     Column: typeof import('primevue/column')['default']

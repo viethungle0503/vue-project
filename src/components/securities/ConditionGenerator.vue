@@ -6,7 +6,11 @@ import PriceCondition from './PriceCondition.vue'
 import VolumeCondition from './VolumeCondition.vue'
 
 const dates = ref([new Date(new Date().setDate(new Date().getDate() - 30)), new Date()])
+const stocks = ref<any>([])
+const showStocks = ref(false)
+const resultMessage = ref('')
 
+const loading = ref(false)
 const leftOperatorOptions = ref([
   { name: 'Giá', code: 'price' },
   { name: 'Khối lượng', code: 'volume' }
@@ -85,6 +89,7 @@ const toViLocaleString = (date: string | object) => {
 
 const submit = async () => {
   try {
+    loading.value = true
     let fromDate = toViLocaleString(dates.value[0])
     let toDate = toViLocaleString(dates.value[1])
     const basaeUrl = import.meta.env.VITE_SERVER_BASE_URL
@@ -96,9 +101,11 @@ const submit = async () => {
       toDate,
       resultType: 'object'
     })
-    if(response.data && response.data.status == 200) {
-      console.log(response.data.data)
+    if (response.data && response.data.status == 200) {
+      stocks.value = response.data.data
+      resultMessage.value = response.data.message
     }
+    loading.value = false
   } catch (error: any) {
     console.error(error.message)
   }
@@ -142,6 +149,43 @@ const submit = async () => {
         </span>
       </div>
     </div>
-    <Button label="Submit" severity="success" class="mt-2" @click="submit()"></Button>
+    <Button
+      label="Submit"
+      severity="success"
+      class="mt-2"
+      @click="submit()"
+      :loading="loading"
+    ></Button>
+    <Button
+      :label="showStocks ? 'Đóng bảng' : 'Hiển thị bảng'"
+      icon="pi pi-eye"
+      class="ms-2"
+      @click="() => (showStocks = !showStocks)"
+    ></Button>
+    <div v-if="resultMessage != ''">
+      <div class="mt-2">
+        <span>{{ resultMessage }}</span>
+        <span>{{ stocks.map((stock: any) => stock.symbol) }}</span>
+      </div>
+    </div>
+    <div v-if="showStocks && stocks.length > 0 && stocks[0].dailyData.length > 0">
+      <div class="card mt-2" v-for="(stock, index) in stocks" :key="index">
+        <Avatar :label="stock.symbol" class="mr-2" size="xlarge" />
+        <DataTable :value="stock.dailyData" tableStyle="min-width: 50rem">
+          <Column field="tradingDate" header="Ngày giao dịch"></Column>
+          <Column field="open" header="Giá mở cửa"></Column>
+          <Column field="high" header="Giá cao nhất"></Column>
+          <Column field="low" header="Giá thấp nhất"></Column>
+          <Column field="close" header="Giá đóng cửa"></Column>
+          <Column field="volume" header="Khối lượng giao dịch"></Column>
+          <Column field="value" header="Giá trị giao dịch"></Column>
+          <Column field="psma10" header="Price SMA10"></Column>
+          <Column field="psma20" header="Price SMA20"></Column>
+          <Column field="psma50" header="Price SMA50"></Column>
+          <Column field="psma100" header="Price SMA100"></Column>
+          <Column field="psma200" header="Price SMA200"></Column>
+        </DataTable>
+      </div>
+    </div>
   </div>
 </template>
