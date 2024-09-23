@@ -25,6 +25,8 @@ const router = createRouter({
       path: '/practice',
       name: 'practice',
       component: PracticeView,
+      sensitive: true,
+      redirect: { name: 'page-viewer', params: { index: '0' } },
       children: [
         {
           path: ':index?',
