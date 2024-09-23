@@ -100,6 +100,10 @@ const submit = async () => {
       fromDate,
       toDate,
       resultType: 'object'
+    }, {
+      headers: {
+        'ngrok-skip-browser-warning': 'true',
+      }
     })
     if (response.data && response.data.status == 200) {
       stocks.value = response.data.data

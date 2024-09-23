@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, onMounted, inject } from 'vue'
+import { ref, onMounted, inject } from 'vue'
 import NavbarLink from '@/components/Practice/NavbarLink.vue'
 import type { DetailedPage } from '@/utils/interfaces';
 
