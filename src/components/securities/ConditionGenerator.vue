@@ -1,20 +1,13 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import axios from 'axios'
+import ConditionSelect from './ConditionSelect.vue'
+import PriceCondition from './PriceCondition.vue'
+import VolumeCondition from './VolumeCondition.vue'
 
-const dates = ref()
-
-async function getSecuritiesDailyOhlc() {
-  const basaeUrl = import.meta.env.VITE_SSI_BASE_URL
-  const endpoint = 'api/v1/ssi/daily-ohlc'
-  const response = await axios.get(`${basaeUrl}${endpoint}`)
-  if (response.status === 200) {
-    console.log(response.data)
-  }
-}
+const dates = ref([new Date(new Date().setDate(new Date().getDate() - 30)), new Date()])
 
 const leftOperatorOptions = ref([
-  { name: 'Vui lòng chọn điều kiện', code: null },
   { name: 'Giá', code: 'price' },
   { name: 'Khối lượng', code: 'volume' }
 ])
@@ -25,13 +18,6 @@ const priceOperatorOptions = ref([
 ])
 
 const volumeOperatorOptions = ref([{ name: 'Lớn hơn', code: 'greater' }])
-
-const priceRightConditions = ref([
-  { name: '%', code: 'percentage' },
-  { name: 'SMA', code: 'SMA' }
-])
-
-const volumeRightConditions = ref([{ name: 'Trung bình', code: 'average' }])
 
 interface Condition {
   leftOperator: {
@@ -52,7 +38,7 @@ const conditions = ref<Condition[]>([
   {
     leftOperator: { key: 'price' },
     operator: { key: 'greater' },
-    rightOperator: { key: 'SMA', p_value: 10 }
+    rightOperator: { key: 'SMA', p_value: 200 }
   },
   {
     leftOperator: { key: 'volume' },
@@ -81,8 +67,41 @@ const addCondition = () => {
     }
   })
 }
-const submit = () => {
-  console.log(conditions.value)
+
+const toLocalISOString = (date: string | object) => {
+  if (typeof date !== 'string') {
+    date = date.toString()
+  }
+  const offset = new Date().getTimezoneOffset()
+  const localDate = new Date(new Date(date).getTime() - offset * 60000)
+  return localDate.toISOString().split('T')[0]
+}
+
+const toViLocaleString = (date: string | object) => {
+  date = toLocalISOString(date)
+  let temp = date.split('-')
+  return `${temp[2]}/${temp[1]}/${temp[0]}`
+}
+
+const submit = async () => {
+  try {
+    let fromDate = toViLocaleString(dates.value[0])
+    let toDate = toViLocaleString(dates.value[1])
+    const basaeUrl = import.meta.env.VITE_SERVER_BASE_URL
+    const endpoint = '/api/v1/main/filter-by-condition'
+    const response = await axios.post(`${basaeUrl}${endpoint}`, {
+      symbols: [],
+      conditions: conditions.value,
+      fromDate,
+      toDate,
+      resultType: 'object'
+    })
+    if(response.data && response.data.status == 200) {
+      console.log(response.data.data)
+    }
+  } catch (error: any) {
+    console.error(error.message)
+  }
 }
 </script>
 
@@ -92,9 +111,11 @@ const submit = () => {
       <label for="range">Chọn khoảng thời gian</label>
       <DatePicker
         v-model="dates"
+        :invalid="dates === null"
         dateFormat="dd/mm/yy"
         selectionMode="range"
         :manualInput="true"
+        :showIcon="true"
         showButtonBar
         class="col-md-4"
         id="range"
@@ -103,83 +124,24 @@ const submit = () => {
     <Button label="Add Condition" icon="pi pi-plus" @click="addCondition()"></Button>
     <div v-for="(condition, index) in conditions" :key="index" class="mt-2">
       <div class="flex justify-center">
-        <Select
-          v-model="condition.leftOperator.key"
-          :options="leftOperatorOptions"
-          optionLabel="name"
-          option-value="code"
-          placeholder="Chọn điều kiện"
-          class="w-25 md:w-56"
-          @change="() => console.log(condition.leftOperator.key)"
-        ></Select>
+        <ConditionSelect
+          :condition="condition"
+          :leftOperatorOptions="leftOperatorOptions"
+        ></ConditionSelect>
         <span v-if="condition.leftOperator.key != null">
-          <span v-if="condition.leftOperator.key == 'price'">
-            <Select
-              v-model="condition.operator.key"
-              :options="priceOperatorOptions"
-              optionLabel="name"
-              option-value="code"
-              placeholder="Chọn biểu thức"
-              class="w-25 md:w-56"
-            ></Select>
-          </span>
-          <span v-if="condition.leftOperator.key == 'volume'">
-            <Select
-              v-model="condition.operator.key"
-              :options="volumeOperatorOptions"
-              optionLabel="name"
-              option-value="code"
-              placeholder="Chọn biểu thức"
-              class="w-25 md:w-56"
-            ></Select>
-          </span>
-        </span>
-        <span v-if="condition.operator.key != null">
-          <span v-if="condition.leftOperator.key == 'price' && condition.operator.key == 'greater'">
-            <FloatLabel>
-              <InputNumber
-                v-model="condition.rightOperator.p_value"
-                id="psma"
-                placeholder="Điền giá trị MA, ví dụ 10"
-                class="w-25 md:w-56"
-              ></InputNumber>
-              <label for="psma">SMA cần so sánh</label>
-            </FloatLabel>
-          </span>
-          <span
-            v-if="condition.leftOperator.key == 'price' && condition.operator.key == 'decreasing'"
-          >
-            <InputNumber
-              v-model="condition.operator.range_from"
-              placeholder="Từ bao nhiêu %"
-              class="w-25 md:w-56"
-            ></InputNumber>
-            <InputNumber
-              v-model="condition.operator.range_to"
-              placeholder="Đến bao nhiêu %"
-              class="w-25 md:w-56"
-            ></InputNumber>
-          </span>
-          <span>
-            <span
-              v-if="condition.leftOperator.key == 'volumn' && condition.operator.key == 'average'"
-            >
-              <InputNumber
-                v-model="condition.rightOperator.p_value"
-                placeholder="Điền khối lượng volumn trung bình"
-                class="w-25 md:w-56"
-              ></InputNumber>
-            </span>
-          </span>
+          <PriceCondition
+            v-if="condition.leftOperator.key == 'price'"
+            :condition="condition"
+            :priceOperatorOptions="priceOperatorOptions"
+          ></PriceCondition>
+          <VolumeCondition
+            v-if="condition.leftOperator.key == 'volume'"
+            :condition="condition"
+            :volumeOperatorOptions="volumeOperatorOptions"
+          ></VolumeCondition>
         </span>
       </div>
     </div>
     <Button label="Submit" severity="success" class="mt-2" @click="submit()"></Button>
   </div>
 </template>
-
-<style scoped>
-.p-floatlabel {
-  display: inline-block;
-}
-</style>
