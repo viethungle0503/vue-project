@@ -21,14 +21,14 @@ const props = defineProps<{
 const condition = ref({ ...props.condition })
 </script>
 <template>
-  <span>
+  <span class="d-flex justify-content-start gap-2">
     <Select
       v-model="condition.operator.key"
       :options="priceOperatorOptions"
       optionLabel="name"
       option-value="code"
       placeholder="Chọn biểu thức"
-      class="w-25 md:w-56"
+      class="w-25"
     ></Select>
     <span v-if="condition.operator.key != null">
       <span v-if="condition.operator.key == 'greater'">
@@ -37,7 +37,7 @@ const condition = ref({ ...props.condition })
             v-model="condition.rightOperator.p_value"
             id="psma"
             placeholder="Điền giá trị MA, ví dụ 10"
-            class="w-25 md:w-56"
+            class="w-25"
           ></InputNumber>
           <label for="psma">SMA cần so sánh</label>
         </FloatLabel>

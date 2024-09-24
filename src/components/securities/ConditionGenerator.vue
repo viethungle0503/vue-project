@@ -134,7 +134,7 @@ const submit = async () => {
     </div>
     <Button label="Add Condition" icon="pi pi-plus" @click="addCondition()"></Button>
     <div v-for="(condition, index) in conditions" :key="index" class="mt-2">
-      <div class="flex justify-center">
+      <div class="d-flex justify-content-start flex-nowrap overflow-auto gap-2" style="">
         <ConditionSelect
           :condition="condition"
           :leftOperatorOptions="leftOperatorOptions"

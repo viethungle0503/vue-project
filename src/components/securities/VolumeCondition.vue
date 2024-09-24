@@ -21,7 +21,7 @@ const props = defineProps<{
 const condition = ref({ ...props.condition })
 </script>
 <template>
-  <span>
+  <span class="d-flex justify-content-start gap-2">
     <Select
       v-model="condition.operator.key"
       :options="volumeOperatorOptions"

@@ -29,7 +29,7 @@ const condition = ref({ ...props.condition })
     optionLabel="name"
     option-value="code"
     placeholder="Chọn điều kiện"
-    class="w-25 md:w-56"
+    class="w-25"
   ></Select>
 </template>
 
