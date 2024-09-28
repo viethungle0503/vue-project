@@ -5,7 +5,7 @@
 
 version: 2
 updates:
-  - package-ecosystem: "" # See documentation for possible values
-    directory: "/" # Location of package manifests
-    schedule:
+  - package-ecosystem: "npm" # See documentation for possible values
+    directory: "/" # Location of package manifests | Specifies the root directory of your project where the package.json file is located.
+    schedule: # Update schedule for the package ecosystem | Specifies the update schedule. In this case, it is set to check for updates weekly.
       interval: "weekly"
