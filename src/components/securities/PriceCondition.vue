@@ -28,7 +28,7 @@ const condition = ref({ ...props.condition })
       optionLabel="name"
       option-value="code"
       placeholder="Chọn biểu thức"
-      class="w-25"
+      class="w-100"
     ></Select>
     <span v-if="condition.operator.key != null">
       <span v-if="condition.operator.key == 'greater'">
@@ -42,16 +42,28 @@ const condition = ref({ ...props.condition })
           <label for="psma">SMA cần so sánh</label>
         </FloatLabel>
       </span>
-      <span v-if="condition.operator.key == 'decreasing'">
+      <span v-if="condition.operator.key == 'decreasing'"  class="d-flex justify-content-between w-100">
         <InputNumber
           v-model="condition.operator.range_from"
           placeholder="Từ bao nhiêu %"
-          class="w-25 md:w-56"
+          class="w-50 md:w-56 me-2"
         ></InputNumber>
         <InputNumber
           v-model="condition.operator.range_to"
           placeholder="Đến bao nhiêu %"
-          class="w-25 md:w-56"
+          class="w-50 md:w-56 ms-2"
+        ></InputNumber>
+      </span>
+      <span v-if="condition.operator.key == 'increasing'" class="d-flex justify-content-between w-100">
+        <InputNumber
+          v-model="condition.operator.range_from"
+          placeholder="Từ bao nhiêu %"
+          class="w-50 md:w-56 me-2"
+        ></InputNumber>
+        <InputNumber
+          v-model="condition.operator.range_to"
+          placeholder="Đến bao nhiêu %"
+          class="w-50 md:w-56 ms-2"
         ></InputNumber>
       </span>
     </span>

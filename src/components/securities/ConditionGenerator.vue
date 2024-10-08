@@ -18,7 +18,8 @@ const leftOperatorOptions = ref([
 
 const priceOperatorOptions = ref([
   { name: 'Lớn hơn', code: 'greater' },
-  { name: 'Đang giảm', code: 'decreasing' }
+  { name: 'Đang giảm', code: 'decreasing' },
+  { name: 'Đang tăng', code: 'increasing' },
 ])
 
 const volumeOperatorOptions = ref([{ name: 'Lớn hơn', code: 'greater' }])
@@ -70,6 +71,10 @@ const addCondition = () => {
       p_value: null
     }
   })
+}
+
+const deleteCondition = (index: number) => {
+  conditions.value.splice(index, 1)
 }
 
 const toLocalISOString = (date: string | object) => {
@@ -135,6 +140,7 @@ const submit = async () => {
     <Button label="Add Condition" icon="pi pi-plus" @click="addCondition()"></Button>
     <div v-for="(condition, index) in conditions" :key="index" class="mt-2">
       <div class="d-flex justify-content-start flex-nowrap overflow-auto gap-2" style="">
+        <Button label="Delete Condition" icon="pi pi-minus" severity="danger" @click="deleteCondition(index)"></Button>
         <ConditionSelect
           :condition="condition"
           :leftOperatorOptions="leftOperatorOptions"
@@ -163,6 +169,7 @@ const submit = async () => {
     <Button
       :label="showStocks ? 'Đóng bảng' : 'Hiển thị bảng'"
       icon="pi pi-eye"
+      severity="info"
       class="ms-2"
       @click="() => (showStocks = !showStocks)"
     ></Button>

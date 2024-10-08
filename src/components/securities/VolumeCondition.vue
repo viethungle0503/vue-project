@@ -28,10 +28,10 @@ const condition = ref({ ...props.condition })
       optionLabel="name"
       option-value="code"
       placeholder="Chọn biểu thức"
-      class="w-25 md:w-56"
+      class="w-100 md:w-56"
     ></Select>
     <span v-if="condition.operator.key != null">
-      <span v-if="condition.operator.key == 'greater'">
+      <span v-if="condition.operator.key == 'greater'" class="w-100">
         <InputNumber
           v-model="condition.rightOperator.p_value"
           placeholder="Điền khối lượng volumn trung bình"
