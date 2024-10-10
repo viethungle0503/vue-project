@@ -9,6 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     AnimalFacts: typeof import('./src/components/Practice/AnimalFacts.vue')['default']
     Avatar: typeof import('primevue/avatar')['default']
+    Breadcrumb: typeof import('./src/components/Breadcrumb/index.vue')['default']
     Button: typeof import('primevue/button')['default']
     CatFacts: typeof import('./src/components/Practice/CatFacts.vue')['default']
     Column: typeof import('primevue/column')['default']
@@ -18,6 +19,7 @@ declare module 'vue' {
     DataTable: typeof import('primevue/datatable')['default']
     DatePicker: typeof import('primevue/datepicker')['default']
     FloatLabel: typeof import('primevue/floatlabel')['default']
+    Hamburger: typeof import('./src/components/Hamburger/index.vue')['default']
     HelloWorld: typeof import('./src/components/Vue/HelloWorld.vue')['default']
     IconCommunity: typeof import('./src/components/icons/IconCommunity.vue')['default']
     IconDocumentation: typeof import('./src/components/icons/IconDocumentation.vue')['default']
@@ -35,6 +37,7 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Select: typeof import('primevue/select')['default']
+    SvgIcon: typeof import('./src/components/SvgIcon/index.vue')['default']
     TheWelcome: typeof import('./src/components/Vue/TheWelcome.vue')['default']
     VolumeCondition: typeof import('./src/components/securities/VolumeCondition.vue')['default']
     WelcomeItem: typeof import('./src/components/Vue/WelcomeItem.vue')['default']
